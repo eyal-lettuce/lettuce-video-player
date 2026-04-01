@@ -1,0 +1,24 @@
+{
+  "name": "video-player",
+  "version": "1.0.0",
+  "description": "",
+  "main": "player.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eyal-lettuce/lettuce-video-player.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/eyal-lettuce/lettuce-video-player/issues"
+  },
+  "homepage": "https://github.com/eyal-lettuce/lettuce-video-player#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}

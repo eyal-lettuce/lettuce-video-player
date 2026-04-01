@@ -1,0 +1,257 @@
+/* ── Lettuce Video Player styles ── */
+
+.lv-hidden { display: none !important; }
+
+/* Host fills its container */
+.lv-player-host,
+.lv-player-host .lv-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+  background: #000;
+  border-radius: inherit;
+}
+
+/* ── Thumbnail overlay ── */
+.lv-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.lv-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Play button ── */
+.lv-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+}
+
+.lv-play-btn--sm { width: 48px; height: 48px; }
+.lv-play-btn--sm .lv-circle { width: 48px; height: 48px; }
+.lv-play-btn--sm .lv-triangle {
+  border-width: 9px 0 9px 15px;
+  margin-left: 3px;
+}
+
+.lv-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.lv-triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 13px 0 13px 22px;
+  border-color: transparent transparent transparent #000;
+  margin-left: 4px;
+}
+
+.lv-overlay:hover .lv-circle { background: #9FE963; }
+.lv-overlay:hover { cursor: pointer; }
+
+/* ── Title ── */
+.lv-title {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Video ── */
+.lv-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ── Content overlay ── */
+.lv-content-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+/* Show on hover, or always visible in modal (no lv-hidden gating there) */
+.lv-wrapper:hover .lv-content-overlay:not(.lv-hidden) { opacity: 1; }
+.lv-content-overlay > * { pointer-events: all; }
+
+/* ── Controls ── */
+.lv-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 12px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.lv-wrapper:hover .lv-controls,
+.lv-wrapper.lv-paused .lv-controls { opacity: 1; }
+
+/* ── Buttons ── */
+.lv-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0.9;
+  flex-shrink: 0;
+  transition: opacity 0.15s, color 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+.lv-btn:hover { opacity: 1; color: #9FE963; }
+.lv-btn svg { display: block; }
+
+/* Speed button */
+.lv-speed {
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 4px;
+  height: 16px;
+  letter-spacing: 0.02em;
+}
+.lv-speed:hover {
+  border-color: #9FE963;
+}
+
+/* Progress bar */
+.lv-progress {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.lv-progress:hover .lv-progress-fill { background: #fff; }
+.lv-progress-fill {
+  height: 100%;
+  background: #9FE963;
+  border-radius: 2px;
+  width: 0%;
+  pointer-events: none;
+}
+
+/* Time */
+.lv-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Modal trigger ── */
+.lv-modal-trigger {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.lv-modal-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lv-modal-trigger:hover .lv-circle { background: #9FE963; }
+
+/* ── VideoHoverButton ── */
+.VideoHoverButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.VideoHoverButton:hover {
+  background: rgba(159, 233, 99, 0.2);
+  border-color: #9FE963;
+  color: #9FE963;
+}
+
+/* ── Modal backdrop ── */
+.lv-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.lv-modal-backdrop.lv-modal-visible { opacity: 1; }
+
+.lv-modal-box {
+  position: relative;
+  width: min(720px, 90vw);
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.lv-modal-player {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
