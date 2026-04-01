@@ -7,13 +7,13 @@
  *   playInline   — true: plays in place | false: opens a modal (default: true)
  *   hoverContent — HTML string shown as overlay while video is playing
  */
-export function createPlayer(container, { src, thumb, title = '', playInline = true, hoverContent = '' } = {}) {
+export function createPlayer(container, { src, thumb, title = '', playInline = true, hoverContent = '', endContent = '' } = {}) {
   container.classList.add('lv-player-host');
 
   if (playInline) {
-    _buildInlinePlayer(container, { src, thumb, title, hoverContent });
+    _buildInlinePlayer(container, { src, thumb, title, hoverContent, endContent });
   } else {
-    _buildModalTrigger(container, { src, thumb, title, hoverContent });
+    _buildModalTrigger(container, { src, thumb, title, hoverContent, endContent });
   }
 }
 
@@ -59,7 +59,7 @@ function _controlsHTML() {
 
 /* ─── Inline player ──────────────────────────────────────────────────── */
 
-function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
+function _buildInlinePlayer(container, { src, thumb, title, hoverContent, endContent }) {
   container.innerHTML = `
     <div class="lv-wrapper" tabindex="0">
       <div class="lv-overlay" data-role="overlay">
@@ -71,6 +71,7 @@ function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
       </div>
       <video class="lv-video lv-hidden" src="${src}" playsinline></video>
       <div class="lv-content-overlay lv-hidden" data-role="content">${hoverContent}</div>
+      <div class="lv-end-overlay lv-hidden" data-role="end">${endContent}</div>
       ${_controlsHTML()}
     </div>`;
 
@@ -79,6 +80,7 @@ function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
   const video     = container.querySelector('.lv-video');
   const controls  = container.querySelector('[data-role=controls]');
   const contentOv = container.querySelector('[data-role=content]');
+  const endOv     = container.querySelector('[data-role=end]');
 
   // Hidden until playback starts
   video.classList.add('lv-hidden');
@@ -94,12 +96,13 @@ function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
     video.play();
   });
 
+  _wireEndContent(video, endOv, contentOv);
   _wireControls(wrapper, video, controls);
 }
 
 /* ─── Modal trigger ──────────────────────────────────────────────────── */
 
-function _buildModalTrigger(container, { src, thumb, title, hoverContent }) {
+function _buildModalTrigger(container, { src, thumb, title, hoverContent, endContent }) {
   container.innerHTML = `
     <div class="lv-modal-trigger">
       <img class="lv-modal-thumb" src="${thumb}" alt="">
@@ -110,17 +113,18 @@ function _buildModalTrigger(container, { src, thumb, title, hoverContent }) {
     </div>`;
 
   container.querySelector('.lv-modal-trigger')
-    .addEventListener('click', () => _openModal({ src, hoverContent }));
+    .addEventListener('click', () => _openModal({ src, hoverContent, endContent }));
 }
 
-function _openModal({ src, hoverContent }) {
+function _openModal({ src, hoverContent, endContent }) {
   const backdrop = document.createElement('div');
   backdrop.className = 'lv-modal-backdrop';
   backdrop.innerHTML = `
     <div class="lv-modal-box">
-<div class="lv-wrapper lv-modal-player" tabindex="0">
+      <div class="lv-wrapper lv-modal-player" tabindex="0">
         <video class="lv-video" src="${src}" playsinline></video>
         <div class="lv-content-overlay" data-role="content">${hoverContent}</div>
+        <div class="lv-end-overlay lv-hidden" data-role="end">${endContent}</div>
         ${_controlsHTML()}
       </div>
     </div>`;
@@ -131,11 +135,14 @@ function _openModal({ src, hoverContent }) {
   const wrapper  = backdrop.querySelector('.lv-wrapper');
   const video    = backdrop.querySelector('.lv-video');
   const controls = backdrop.querySelector('[data-role=controls]');
+  const endOv    = backdrop.querySelector('[data-role=end]');
+  const contentOv = backdrop.querySelector('[data-role=content]');
 
   // Start playing immediately — no thumbnail stage in modal
   wrapper.focus({ preventScroll: true });
   video.play();
 
+  _wireEndContent(video, endOv, contentOv);
   _wireControls(wrapper, video, controls);
 
   function close() {
@@ -155,6 +162,20 @@ function _openModal({ src, hoverContent }) {
 function _pauseOthers(currentVideo) {
   document.querySelectorAll('.lv-video').forEach(v => {
     if (v !== currentVideo) v.pause();
+  });
+}
+
+/* ─── End content wiring ─────────────────────────────────────────────── */
+
+function _wireEndContent(video, endOv, contentOv) {
+  if (!endOv) return;
+  video.addEventListener('ended', () => {
+    endOv.classList.remove('lv-hidden');
+    if (contentOv) contentOv.classList.add('lv-hidden');
+  });
+  video.addEventListener('play', () => {
+    endOv.classList.add('lv-hidden');
+    if (contentOv) contentOv.classList.remove('lv-hidden');
   });
 }
 

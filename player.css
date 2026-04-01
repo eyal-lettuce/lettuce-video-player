@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .lv-triangle {
@@ -70,7 +70,11 @@
   margin-left: 4px;
 }
 
-.lv-overlay:hover .lv-circle { background: #9FE963; }
+.lv-overlay:hover .lv-circle,
+.lv-modal-trigger:hover .lv-circle {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
 .lv-overlay:hover { cursor: pointer; }
 
 /* ── Title ── */
@@ -79,8 +83,9 @@
   bottom: 20px;
   left: 20px;
   font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: clamp(13px, 5cqw, 40px);
+  font-weight: 900;
+  font-size: clamp(13px, 6cqw, 50px);
+  line-height: 100%;
   color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.5);
   pointer-events: none;
@@ -107,6 +112,19 @@
 /* Show on hover, or always visible in modal (no lv-hidden gating there) */
 .lv-wrapper:hover .lv-content-overlay:not(.lv-hidden) { opacity: 1; }
 .lv-content-overlay > * { pointer-events: all; }
+
+/* ── End overlay ── */
+.lv-end-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: inherit;
+}
+
+.lv-end-overlay.lv-hidden { display: none !important; }
 
 /* ── Controls ── */
 .lv-controls {
@@ -203,7 +221,6 @@
   display: block;
 }
 
-.lv-modal-trigger:hover .lv-circle { background: #9FE963; }
 
 /* ── VideoHoverButton ── */
 .VideoHoverButton {

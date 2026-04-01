@@ -6,7 +6,7 @@
   <title>Lettuce — Video Demos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="player.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -228,6 +228,46 @@
     .token-comment  { color: rgba(195, 215, 203, 0.4); }
     .token-prop     { color: #c3d7cb; }
 
+    /* ── End content card ── */
+    .end-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      max-width: 320px;
+      width: 80%;
+    }
+
+    .end-card p {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #021F21;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .end-card-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #021F21;
+      border: none;
+      border-radius: 9999px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .end-card-btn:hover { background: #9FE963; color: #021F21; }
+
     /* ── Responsive ── */
     @media (max-width: 960px) {
       .video-grid { flex-direction: column; }
@@ -275,21 +315,13 @@
             <h2>Usage</h2>
             <pre><code><span class="token-keyword">import</span> { createPlayer } <span class="token-keyword">from</span> <span class="token-string">'./player.js'</span>;
 
-<span class="token-comment">// Inline player — plays in place</span>
 <span class="token-function">createPlayer</span>(document.<span class="token-function">getElementById</span>(<span class="token-string">'myPlayer'</span>), {
   <span class="token-prop">src</span>:          <span class="token-string">'video.mp4'</span>,
   <span class="token-prop">thumb</span>:        <span class="token-string">'thumb.png'</span>,
   <span class="token-prop">title</span>:        <span class="token-string">'How Your Income Flows'</span>,
   <span class="token-prop">playInline</span>:   <span class="token-keyword">true</span>,
   <span class="token-prop">hoverContent</span>: <span class="token-string">'&lt;button class="VideoHoverButton"&gt;Ask AI&lt;/button&gt;'</span>,
-});
-
-<span class="token-comment">// Modal player — thumbnail opens a modal on click</span>
-<span class="token-function">createPlayer</span>(document.<span class="token-function">getElementById</span>(<span class="token-string">'myModal'</span>), {
-  <span class="token-prop">src</span>:          <span class="token-string">'video.mp4'</span>,
-  <span class="token-prop">thumb</span>:        <span class="token-string">'thumb.png'</span>,
-  <span class="token-prop">playInline</span>:   <span class="token-keyword">false</span>,
-  <span class="token-prop">hoverContent</span>: <span class="token-string">'&lt;button class="VideoHoverButton"&gt;Ask AI&lt;/button&gt;'</span>,
+  <span class="token-prop">endContent</span>:   <span class="token-string">'&lt;div class="end-card"&gt;...&lt;/div&gt;'</span>,
 });</code></pre>
           </div>
 
@@ -320,26 +352,39 @@
   <script type="module">
     import { createPlayer } from './player.js';
 
+    const endContent = `
+      <div class="end-card">
+        <p>You can now customize your withholding</p>
+        <button class="end-card-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="8" r="2"/>
+            <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.42 1.42M11.53 11.53l1.42 1.42M3.05 12.95l1.42-1.42M11.53 4.47l1.42-1.42"/>
+          </svg>
+          Settings
+        </button>
+      </div>`;
+
     const sharedOptions = {
       src: 'video.mp4',
-      thumb: 'thumb.png',
-      title: 'How Your Income Flows',
+      thumb: 'thumb.jpg',
       hoverContent: '<button class="VideoHoverButton">Ask AI about your income</button>',
+      endContent,
       playInline: true,
     };
 
     createPlayer(document.getElementById('playerModal'), {
       ...sharedOptions,
       playInline: false,
-      title: '',
     });
 
     createPlayer(document.getElementById('playerLarge'), {
       ...sharedOptions,
+      title: 'How Your Income Flows',
     });
 
     createPlayer(document.getElementById('playerRight'), {
       ...sharedOptions,
+      title: 'How Your Income Flows',
     });
   </script>
 
