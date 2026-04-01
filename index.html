@@ -132,6 +132,102 @@
       overflow: hidden;
     }
 
+    /* ── Sidebar card ── */
+    .sidebar-card {
+      margin-top: 16px;
+      background: #03292b;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      color: #f2f7f4;
+    }
+
+    .sidebar-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+      color: #9FE963;
+    }
+
+    .sidebar-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-card ul li {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+      color: rgba(242, 247, 244, 0.7);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .sidebar-card ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: rgba(242, 247, 244, 0.35);
+    }
+
+    .sidebar-card code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      padding: 1px 5px;
+      color: #9FE963;
+    }
+
+    /* ── Code card ── */
+    .code-card {
+      background: #03292b;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .code-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32px;
+      color: #f2f7f4;
+    }
+
+    .code-card pre {
+      margin: 0;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .code-card pre code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #c3d7cb;
+      white-space: pre;
+    }
+
+    .token-keyword  { color: #9FE963; }
+    .token-function { color: #7dd3fc; }
+    .token-string   { color: #fca5a5; }
+    .token-comment  { color: rgba(195, 215, 203, 0.4); }
+    .token-prop     { color: #c3d7cb; }
+
     /* ── Responsive ── */
     @media (max-width: 960px) {
       .video-grid { flex-direction: column; }
@@ -163,7 +259,7 @@
         <div class="col-left">
 
           <!-- Modal card -->
-          <div class="modal-card">
+          <div class="modal-card" style="padding: 24px;">
             <div class="modal-card-text">
               <h2>Video Modal</h2>
               <p style="opacity: 0.7;">While large thumbnails can play video inline, sometimes we might want to have a small thumbnail that open the video in a modal.</p>
@@ -174,11 +270,47 @@
           <!-- Large inline player -->
           <div class="player-large-wrap" id="playerLarge"></div>
 
+          <!-- Code example card -->
+          <div class="code-card">
+            <h2>Usage</h2>
+            <pre><code><span class="token-keyword">import</span> { createPlayer } <span class="token-keyword">from</span> <span class="token-string">'./player.js'</span>;
+
+<span class="token-comment">// Inline player — plays in place</span>
+<span class="token-function">createPlayer</span>(document.<span class="token-function">getElementById</span>(<span class="token-string">'myPlayer'</span>), {
+  <span class="token-prop">src</span>:          <span class="token-string">'video.mp4'</span>,
+  <span class="token-prop">thumb</span>:        <span class="token-string">'thumb.png'</span>,
+  <span class="token-prop">title</span>:        <span class="token-string">'How Your Income Flows'</span>,
+  <span class="token-prop">playInline</span>:   <span class="token-keyword">true</span>,
+  <span class="token-prop">hoverContent</span>: <span class="token-string">'&lt;button class="VideoHoverButton"&gt;Ask AI&lt;/button&gt;'</span>,
+});
+
+<span class="token-comment">// Modal player — thumbnail opens a modal on click</span>
+<span class="token-function">createPlayer</span>(document.<span class="token-function">getElementById</span>(<span class="token-string">'myModal'</span>), {
+  <span class="token-prop">src</span>:          <span class="token-string">'video.mp4'</span>,
+  <span class="token-prop">thumb</span>:        <span class="token-string">'thumb.png'</span>,
+  <span class="token-prop">playInline</span>:   <span class="token-keyword">false</span>,
+  <span class="token-prop">hoverContent</span>: <span class="token-string">'&lt;button class="VideoHoverButton"&gt;Ask AI&lt;/button&gt;'</span>,
+});</code></pre>
+          </div>
+
         </div>
 
         <!-- Right column -->
         <div class="col-right">
           <div class="player-right-wrap" id="playerRight"></div>
+          <div class="sidebar-card">
+            <h2>Guidelines</h2>
+            <ul>
+              <li>Videos have a <code>playInline</code> flag. When <code>false</code>, the video opens in a modal.</li>
+              <li>Titles are not displayed when <code>playInline</code> is <code>false</code>.</li>
+              <li>Videos can have <code>hoverContent</code> — displayed when hovering over the video.</li>
+            </ul>
+            <h3>Nice to have</h3>
+            <ul>
+              <li>There is a notion of a focused player so that pressing Space only toggles playback of the focused video.</li>
+              <li>Clicking play on a video will pause any other playing video on the page.</li>
+            </ul>
+          </div>
         </div>
 
       </div>

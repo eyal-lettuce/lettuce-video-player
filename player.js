@@ -61,7 +61,7 @@ function _controlsHTML() {
 
 function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
   container.innerHTML = `
-    <div class="lv-wrapper">
+    <div class="lv-wrapper" tabindex="0">
       <div class="lv-overlay" data-role="overlay">
         <img class="lv-thumb" src="${thumb}" alt="">
         <div class="lv-play-btn">
@@ -90,6 +90,7 @@ function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
     video.classList.remove('lv-hidden');
     controls.classList.remove('lv-hidden');
     contentOv.classList.remove('lv-hidden');
+    wrapper.focus({ preventScroll: true });
     video.play();
   });
 
@@ -116,7 +117,7 @@ function _openModal({ src, hoverContent }) {
   backdrop.className = 'lv-modal-backdrop';
   backdrop.innerHTML = `
     <div class="lv-modal-box">
-<div class="lv-wrapper lv-modal-player">
+<div class="lv-wrapper lv-modal-player" tabindex="0">
         <video class="lv-video" src="${src}" playsinline></video>
         <div class="lv-content-overlay" data-role="content">${hoverContent}</div>
         ${_controlsHTML()}
@@ -131,6 +132,7 @@ function _openModal({ src, hoverContent }) {
   const controls = backdrop.querySelector('[data-role=controls]');
 
   // Start playing immediately — no thumbnail stage in modal
+  wrapper.focus({ preventScroll: true });
   video.play();
 
   _wireControls(wrapper, video, controls);
@@ -144,6 +146,14 @@ function _openModal({ src, hoverContent }) {
   backdrop.addEventListener('click', (e) => { if (e.target === backdrop) close(); });
   document.addEventListener('keydown', function esc(e) {
     if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
+  });
+}
+
+/* ─── Pause all other players ────────────────────────────────────────── */
+
+function _pauseOthers(currentVideo) {
+  document.querySelectorAll('.lv-video').forEach(v => {
+    if (v !== currentVideo) v.pause();
   });
 }
 
@@ -165,7 +175,7 @@ function _wireControls(wrapper, video, controls) {
     wrapper.classList.toggle('lv-paused', video.paused);
   }
   ppBtn.addEventListener('click', () => video.paused ? video.play() : video.pause());
-  video.addEventListener('play', syncPP);
+  video.addEventListener('play', () => { _pauseOthers(video); syncPP(); });
   video.addEventListener('pause', syncPP);
 
   // Single click = play/pause, double-click = fullscreen
@@ -182,9 +192,9 @@ function _wireControls(wrapper, video, controls) {
     }
   });
 
-  // Spacebar
-  document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && !controls.classList.contains('lv-hidden')) {
+  // Spacebar — only when this wrapper has focus
+  wrapper.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
       e.preventDefault();
       video.paused ? video.play() : video.pause();
     }

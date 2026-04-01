@@ -3,6 +3,8 @@
 .lv-hidden { display: none !important; }
 
 /* Host fills its container */
+.lv-player-host .lv-wrapper:focus { outline: 2px solid #fff; outline-offset: 0; }
+
 .lv-player-host,
 .lv-player-host .lv-wrapper {
   width: 100%;
