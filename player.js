@@ -13,7 +13,7 @@ export function createPlayer(container, { src, thumb, title = '', playInline = t
   if (playInline) {
     _buildInlinePlayer(container, { src, thumb, title, hoverContent });
   } else {
-    _buildModalTrigger(container, { src, thumb, hoverContent });
+    _buildModalTrigger(container, { src, thumb, title, hoverContent });
   }
 }
 
@@ -99,13 +99,14 @@ function _buildInlinePlayer(container, { src, thumb, title, hoverContent }) {
 
 /* ─── Modal trigger ──────────────────────────────────────────────────── */
 
-function _buildModalTrigger(container, { src, thumb, hoverContent }) {
+function _buildModalTrigger(container, { src, thumb, title, hoverContent }) {
   container.innerHTML = `
     <div class="lv-modal-trigger">
       <img class="lv-modal-thumb" src="${thumb}" alt="">
       <div class="lv-play-btn lv-play-btn--sm">
         <div class="lv-circle"><div class="lv-triangle"></div></div>
       </div>
+      ${title ? `<div class="lv-title">${title}</div>` : ''}
     </div>`;
 
   container.querySelector('.lv-modal-trigger')

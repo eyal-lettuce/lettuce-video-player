@@ -13,6 +13,7 @@
   display: block;
   background: #000;
   border-radius: inherit;
+  container-type: inline-size;
 }
 
 /* ── Thumbnail overlay ── */
@@ -79,7 +80,7 @@
   left: 20px;
   font-family: 'Inter', sans-serif;
   font-weight: 800;
-  font-size: 20px;
+  font-size: clamp(13px, 5cqw, 40px);
   color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.5);
   pointer-events: none;

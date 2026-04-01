@@ -28,9 +28,9 @@ test.describe('Inline player — large', () => {
     await expect(page.locator('#playerLarge .lv-title')).toHaveText('How Your Income Flows');
   });
 
-  test('modal trigger has no title on thumbnail', async ({ page }) => {
+  test('modal trigger shows title on thumbnail', async ({ page }) => {
     await page.goto(BASE);
-    await expect(page.locator('#playerModal .lv-title')).toHaveCount(0);
+    await expect(page.locator('#playerModal .lv-title')).toHaveText('How Your Income Flows');
   });
 
   test('hover content is present in inline player', async ({ page }) => {

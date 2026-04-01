@@ -302,7 +302,7 @@
             <h2>Guidelines</h2>
             <ul>
               <li>Videos have a <code>playInline</code> flag. When <code>false</code>, the video opens in a modal.</li>
-              <li>Titles are not displayed when <code>playInline</code> is <code>false</code>.</li>
+              <li>Titles should be avoided when <code>playInline</code> is <code>false</code>.</li>
               <li>Videos can have <code>hoverContent</code> — displayed when hovering over the video.</li>
             </ul>
             <h3>Nice to have</h3>
@@ -325,21 +325,21 @@
       thumb: 'thumb.png',
       title: 'How Your Income Flows',
       hoverContent: '<button class="VideoHoverButton">Ask AI about your income</button>',
+      playInline: true,
     };
 
     createPlayer(document.getElementById('playerModal'), {
       ...sharedOptions,
       playInline: false,
+      title: '',
     });
 
     createPlayer(document.getElementById('playerLarge'), {
       ...sharedOptions,
-      playInline: true,
     });
 
     createPlayer(document.getElementById('playerRight'), {
       ...sharedOptions,
-      playInline: true,
     });
   </script>
 
